@@ -8,7 +8,7 @@ export default function App() {
     { title: 'Code', field: 'code' },
     { title: 'Name', field: 'name' },
     { title: 'Teachers', field: 'teachers' },
-    { title: 'Sections', field: 'sections' },
+    { title: 'Section', field: 'section' },
     { title: 'Credits', field: 'credits', type: 'numeric' },
   ];
 
