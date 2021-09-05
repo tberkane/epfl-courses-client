@@ -9,7 +9,6 @@ export default function App() {
   const { height } = useWindowResize();
 
   const columns = [
-    
     {
       title: 'Code',
       field: 'code',
@@ -17,10 +16,22 @@ export default function App() {
     {
       title: 'Name',
       field: 'name',
+      render: (rowData) => (
+        <a href={rowData.link} target="_blank" rel="noreferrer">
+          {rowData.name}
+        </a>
+      ),
     },
     {
       title: 'Teachers',
       field: 'teachers',
+      render: (rowData) =>
+        rowData.teachers.map((t, i) => [
+          i > 0 && ', ',
+          <a href={rowData.teacher_links[i]} target="_blank" rel="noreferrer">
+            {t}
+          </a>,
+        ]),
     },
     {
       title: 'Section',
