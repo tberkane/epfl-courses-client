@@ -8,7 +8,7 @@ import * as React from 'react';
 
 export default class CustomGroupRow extends React.Component {
   rotateIconStyle = (isOpen) => ({
-    transform: isOpen ? 'rotate(90deg)' : 'none',
+    transform: !isOpen ? 'rotate(90deg)' : 'none',
   });
 
   render() {
@@ -21,7 +21,7 @@ export default class CustomGroupRow extends React.Component {
     const column = this.props.groups[this.props.level];
 
     let detail;
-    if (this.props.groupData.isExpanded) {
+    if (!this.props.groupData.isExpanded) {
       if (this.props.groups.length > this.props.level + 1) {
         // Is there another group
         detail = this.props.groupData.groups.map((groupData, index) => (
@@ -126,7 +126,7 @@ export default class CustomGroupRow extends React.Component {
     }
 
     let separator = this.props.options.groupRowSeparator || ': ';
-
+    
     return (
       <>
         <TableRow>

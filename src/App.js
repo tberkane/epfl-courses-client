@@ -1,76 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import MaterialTable, { MTableGroupRow } from 'material-table';
+//import MaterialTable from 'material-table';
+import MaterialTable from '@material-table/core';
 import CustomGroupRow from './components/CustomGroupRow';
+import { useWindowResize } from './hooks/useWindowResize';
 
 export default function App() {
   const [data, setData] = useState([]);
+  const { height } = useWindowResize();
 
-  /*  const columns = [
-    {
-      title: 'Group',
-      field: 'group',
-      defaultGroupOrder: 0,
-    },
-    {
-      title: 'Code',
-      field: 'code',
-    },
-    {
-      title: 'Name',
-      field: 'name',
-    },
-    {
-      title: 'Teachers',
-      field: 'teachers',
-    },
-    {
-      title: 'Section',
-      field: 'section',
-    },
-    {
-      title: 'Credits',
-      field: 'credits',
-      type: 'numeric',
-    },
-  ]; */
   const columns = [
-    {
-      title: 'Group',
-      field: 'group',
-      defaultGroupOrder: 0,
-      width: 0,
-      cellStyle: { whiteSpace: 'nowrap' },
-    },
+    
     {
       title: 'Code',
       field: 'code',
-      width: '10%',
-      cellStyle: { whiteSpace: 'nowrap' },
     },
     {
       title: 'Name',
       field: 'name',
-      width: '50%',
-      cellStyle: { whiteSpace: 'nowrap' },
     },
     {
       title: 'Teachers',
       field: 'teachers',
-      width: '30%',
-      cellStyle: { whiteSpace: 'nowrap' },
     },
     {
       title: 'Section',
       field: 'section',
-      width: '5%',
-      cellStyle: { whiteSpace: 'nowrap' },
     },
     {
       title: 'Credits',
       field: 'credits',
       type: 'numeric',
-      width: '5%',
-      cellStyle: { whiteSpace: 'nowrap' },
+    },
+    {
+      title: 'Group',
+      field: 'group',
+      defaultGroupOrder: 0,
     },
   ];
 
@@ -81,15 +45,17 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ maxWidth: '60%', margin: 'auto' }}>
+    <div style={{ maxWidth: '70%', margin: 'auto' }}>
       <MaterialTable
         columns={columns}
         data={data}
         title="EPFLCourses"
         options={{
-          filtering: true,
           draggable: false,
           paging: false,
+          showEmptyDataSourceMessage: false,
+          headerStyle: { position: 'sticky', top: 0 },
+          maxBodyHeight: height - 81,
         }}
         components={{
           GroupRow: (props) => <CustomGroupRow {...props} />,
