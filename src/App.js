@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-//import MaterialTable from 'material-table';
 import MaterialTable from '@material-table/core';
 import CustomGroupRow from './components/CustomGroupRow';
 import { useWindowResize } from './hooks/useWindowResize';
@@ -14,48 +13,91 @@ export default function App() {
       field: 'group',
       defaultGroupOrder: 0,
     },
-    {
+    /*     {
       title: 'Code',
       field: 'code',
-    },
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
+    }, */
     {
       title: 'Name',
       field: 'name',
+      cellStyle: {
+        padding: '5px',
+      },
       render: (rowData) => (
-        <a href={rowData.link} target="_blank" rel="noreferrer">
-          {rowData.name}
-        </a>
+        <div style={{ minWidth: '200px' }}>
+          {rowData.link ? (
+            <a href={rowData.link} target="_blank" rel="noreferrer">
+              {rowData.code + ' ' + rowData.name}
+            </a>
+          ) : (
+            rowData.code + ' ' + rowData.name
+          )}
+        </div>
       ),
     },
     {
       title: 'Teachers',
       field: 'teachers',
-      render: (rowData) =>
-        rowData.teachers.map((t, i) => [
-          i > 0 && ', ',
-          <a href={rowData.teacher_links[i]} target="_blank" rel="noreferrer">
-            {t}
-          </a>,
-        ]),
+      cellStyle: {
+        padding: '5px',
+      },
+      render: (rowData) => (
+        <div style={{ minWidth: '140px' }}>
+          {rowData.teachers.map((t, i) => [
+            i > 0 && ', ',
+            rowData.teacher_links[i] ? (
+              <a
+                href={rowData.teacher_links[i]}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t}
+              </a>
+            ) : (
+              t
+            ),
+          ])}
+        </div>
+      ),
     },
-    {
+    /* {
       title: 'Section',
       field: 'section',
-    },
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
+    }, */
     {
       title: 'Language',
       field: 'language',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
     },
     {
       title: 'Hours',
       field: 'hours',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
       render: (rowData) => rowData.hours.join('/'),
     },
     {
       title: 'Specializations',
       field: 'specializations',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
       render: (rowData) => (
-        <ul>
+        <ul style={{ padding: 0, 'list-style-type': 'none' }}>
           {rowData.specializations.map((t) => (
             <li>{t}</li>
           ))}
@@ -65,15 +107,27 @@ export default function App() {
     {
       title: 'Semester',
       field: 'semester',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
     },
     {
       title: 'Exam',
       field: 'exam_type',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
     },
     {
       title: 'Credits',
       field: 'credits',
       type: 'numeric',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '5px',
+      },
     },
   ];
 
@@ -93,7 +147,12 @@ export default function App() {
           draggable: false,
           paging: false,
           showEmptyDataSourceMessage: false,
-          headerStyle: { position: 'sticky', top: 0 },
+          headerStyle: {
+            position: 'sticky',
+            top: 0,
+            whiteSpace: 'nowrap',
+            padding: '5px',
+          },
           maxBodyHeight: height - 81,
         }}
         components={{
@@ -103,3 +162,4 @@ export default function App() {
     </div>
   );
 }
+//padding

@@ -126,7 +126,7 @@ export default class CustomGroupRow extends React.Component {
     }
 
     let separator = this.props.options.groupRowSeparator || ': ';
-    
+
     return (
       <>
         <TableRow>
@@ -135,7 +135,7 @@ export default class CustomGroupRow extends React.Component {
             colSpan={colSpan}
             padding="none"
             columnDef={column}
-            value={value}
+            value={value.substr(value.indexOf(' ') + 1)}
             icons={this.props.icons}
           >
             <IconButton
