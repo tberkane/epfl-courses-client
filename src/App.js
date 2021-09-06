@@ -10,6 +10,11 @@ export default function App() {
 
   const columns = [
     {
+      title: 'Group',
+      field: 'group',
+      defaultGroupOrder: 0,
+    },
+    {
       title: 'Code',
       field: 'code',
     },
@@ -38,14 +43,37 @@ export default function App() {
       field: 'section',
     },
     {
+      title: 'Language',
+      field: 'language',
+    },
+    {
+      title: 'Hours',
+      field: 'hours',
+      render: (rowData) => rowData.hours.join('/'),
+    },
+    {
+      title: 'Specializations',
+      field: 'specializations',
+      render: (rowData) => (
+        <ul>
+          {rowData.specializations.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      ),
+    },
+    {
+      title: 'Semester',
+      field: 'semester',
+    },
+    {
+      title: 'Exam',
+      field: 'exam_type',
+    },
+    {
       title: 'Credits',
       field: 'credits',
       type: 'numeric',
-    },
-    {
-      title: 'Group',
-      field: 'group',
-      defaultGroupOrder: 0,
     },
   ];
 
