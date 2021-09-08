@@ -135,7 +135,7 @@ export default class CustomGroupRow extends React.Component {
             colSpan={colSpan}
             padding="none"
             columnDef={column}
-            value={value.substr(value.indexOf(' ') + 1)}
+            value={''}
             icons={this.props.icons}
           >
             <IconButton
@@ -149,6 +149,7 @@ export default class CustomGroupRow extends React.Component {
             >
               <this.props.icons.DetailPanel />
             </IconButton>
+            <b>{value.substr(value.indexOf(' ') + 1)}</b>
           </this.props.components.Cell>
         </TableRow>
         {detail}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MaterialTable from '@material-table/core';
 import CustomGroupRow from './components/CustomGroupRow';
 import { useWindowResize } from './hooks/useWindowResize';
+import './styles/style.css';
+import { IconButton } from '@material-ui/core';
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -13,29 +15,31 @@ export default function App() {
       field: 'group',
       defaultGroupOrder: 0,
     },
-    /*     {
-      title: 'Code',
-      field: 'code',
-      cellStyle: {
-        whiteSpace: 'nowrap',
-        padding: '5px',
-      },
-    }, */
     {
       title: 'Name',
       field: 'name',
       cellStyle: {
-        padding: '5px',
+        padding: '10px',
       },
       render: (rowData) => (
-        <div style={{ minWidth: '200px' }}>
+        <div style={{ minWidth: '240px' }}>
           {rowData.link ? (
-            <a href={rowData.link} target="_blank" rel="noreferrer">
-              {rowData.code + ' ' + rowData.name}
-            </a>
+            <div>
+              <a
+                href={rowData.link}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontWeight: 'bold' }}
+              >
+                {rowData.name}
+              </a>
+            </div>
           ) : (
-            rowData.code + ' ' + rowData.name
+            <b>{rowData.name}</b>
           )}
+          <div>
+            {(rowData.code ? rowData.code + ' / ' : '') + rowData.section}
+          </div>
         </div>
       ),
     },
@@ -43,7 +47,7 @@ export default function App() {
       title: 'Teachers',
       field: 'teachers',
       cellStyle: {
-        padding: '5px',
+        padding: '10px',
       },
       render: (rowData) => (
         <div style={{ minWidth: '140px' }}>
@@ -64,20 +68,12 @@ export default function App() {
         </div>
       ),
     },
-    /* {
-      title: 'Section',
-      field: 'section',
-      cellStyle: {
-        whiteSpace: 'nowrap',
-        padding: '5px',
-      },
-    }, */
     {
       title: 'Language',
       field: 'language',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
     },
     {
@@ -85,7 +81,7 @@ export default function App() {
       field: 'hours',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
       render: (rowData) => rowData.hours.join('/'),
     },
@@ -94,7 +90,7 @@ export default function App() {
       field: 'specializations',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
       render: (rowData) => (
         <ul style={{ padding: 0, 'list-style-type': 'none' }}>
@@ -104,29 +100,45 @@ export default function App() {
         </ul>
       ),
     },
-    {
+    /* {
       title: 'Semester',
       field: 'semester',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
-    },
+    }, */
     {
+      title: 'Exam',
+      field: 'semester',
+      cellStyle: {
+        whiteSpace: 'nowrap',
+        padding: '10px',
+      },
+      render: (rowData) => (
+        <ul style={{ padding: 0, 'list-style-type': 'none' }}>
+          <li style={{ fontWeight: 'bold' }}>
+            {rowData.semester === 'Fall' ? 'Winter session' : 'Summer session'}
+          </li>
+          <li>{rowData.exam_type}</li>
+        </ul>
+      ),
+    },
+    /* {
       title: 'Exam',
       field: 'exam_type',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
-    },
+    }, */
     {
       title: 'Credits',
       field: 'credits',
       type: 'numeric',
       cellStyle: {
         whiteSpace: 'nowrap',
-        padding: '5px',
+        padding: '10px',
       },
     },
   ];
@@ -138,12 +150,13 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ maxWidth: '70%', margin: 'auto' }}>
+    <div style={{ maxWidth: '80%', margin: 'auto' }}>
       <MaterialTable
         columns={columns}
         data={data}
         title="EPFLCourses"
         options={{
+          filtering: true,
           draggable: false,
           paging: false,
           showEmptyDataSourceMessage: false,
@@ -151,15 +164,18 @@ export default function App() {
             position: 'sticky',
             top: 0,
             whiteSpace: 'nowrap',
-            padding: '5px',
+            padding: '10px',
+            fontWeight: 'bold',
           },
           maxBodyHeight: height - 81,
         }}
         components={{
           GroupRow: (props) => <CustomGroupRow {...props} />,
         }}
+        icons={{
+          IconButton: () => <IconButton style={{ color: 'blue' }} />,
+        }}
       />
     </div>
   );
 }
-//padding
