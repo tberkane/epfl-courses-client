@@ -3,11 +3,77 @@ import MaterialTable from '@material-table/core';
 import CustomGroupRow from './components/CustomGroupRow';
 import { useWindowResize } from './hooks/useWindowResize';
 import './styles/style.css';
-import { IconButton } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
+import WorkloadSquare from './components/WorkloadSquare';
+import Workload from './components/Workload';
+
+const drawerWidth = 300;
+
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+}));
 
 export default function App() {
+  const classes = useStyles();
+
   const [data, setData] = useState([]);
+  const [section, setSection] = useState('');
   const { height } = useWindowResize();
+
+  const sections = {
+    'Applied Mathematics': 'applied-mathematics',
+    'Applied Physics': 'applied-physics',
+    Architecture: 'architecture',
+    'Chemical Engineering and Biotechnology':
+      'chemical-engineering-and-biotechnology',
+    'Civil Engineering': 'civil-engineering',
+    'Communication Systems - master program':
+      'communication-systems-master-program',
+    'Computational science and Engineering':
+      'computational-science-and-engineering',
+    'Computer Science': 'computer-science',
+    'Computer Science - Cybersecurity': 'computer-science-cybersecurity',
+    'Data Science': 'data-science',
+    'Digital Humanities': 'digital-humanities',
+    'Electrical and Electronics Engineering':
+      'electrical-and-electronics-engineering',
+    'Energy Management and Sustainability':
+      'energy-management-and-sustainability',
+    'Energy Science and Technology': 'energy-science-and-technology',
+    'Environmental Sciences and Engineering':
+      'environmental-sciences-and-engineering',
+    'Financial engineering': 'financial-engineering',
+    'Humanities and Social Sciences Program':
+      'humanities-and-social-sciences-program',
+    'Life Sciences Engineering': 'life-sciences-engineering',
+    'Management, Technology and Entrepreneurship':
+      'management-technology-and-entrepreneurship',
+    'Materials Science and Engineering': 'materials-science-and-engineering',
+    'Mathematics - master program': 'mathematics-master-program',
+    'Mechanical Engineering': 'mechanical-engineering',
+    'Micro- and Nanotechnologies for Integrated Systems':
+      'micro-and-nanotechnologies-for-integrated-systems',
+    Microengineering: 'microengineering',
+    'Molecular & Biological Chemistry': 'molecular-biological-chemistry',
+    'Nuclear engineering': 'nuclear-engineering',
+    'Physics - master program': 'physics-master-program',
+    Robotics: 'robotics',
+    'Sustainable Management and Technology':
+      'sustainable-management-and-technology',
+  };
 
   const columns = [
     {
@@ -77,37 +143,37 @@ export default function App() {
       },
     },
     {
-      title: 'Hours',
+      title: 'Workload',
       field: 'hours',
       cellStyle: {
         whiteSpace: 'nowrap',
         padding: '10px',
       },
-      render: (rowData) => rowData.hours.join('/'),
+      customSort: (a, b) =>
+        a.hours[0] +
+        a.hours[1] +
+        a.hours[2] -
+        b.hours[0] -
+        b.hours[1] -
+        b.hours[2],
+      render: (rowData) => <Workload hours={rowData.hours}></Workload>,
     },
     {
       title: 'Specializations',
       field: 'specializations',
       cellStyle: {
-        whiteSpace: 'nowrap',
         padding: '10px',
       },
       render: (rowData) => (
-        <ul style={{ padding: 0, 'list-style-type': 'none' }}>
-          {rowData.specializations.map((t) => (
-            <li>{t}</li>
-          ))}
-        </ul>
+        <div style={{ minWidth: '180px' }}>
+          <ul style={{ padding: 0, 'list-style-type': 'circle' }}>
+            {rowData.specializations.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </div>
       ),
     },
-    /* {
-      title: 'Semester',
-      field: 'semester',
-      cellStyle: {
-        whiteSpace: 'nowrap',
-        padding: '10px',
-      },
-    }, */
     {
       title: 'Exam',
       field: 'semester',
@@ -124,14 +190,6 @@ export default function App() {
         </ul>
       ),
     },
-    /* {
-      title: 'Exam',
-      field: 'exam_type',
-      cellStyle: {
-        whiteSpace: 'nowrap',
-        padding: '10px',
-      },
-    }, */
     {
       title: 'Credits',
       field: 'credits',
@@ -144,38 +202,64 @@ export default function App() {
   ];
 
   useEffect(() => {
-    fetch('http://localhost:3000/courses')
+    fetch('http://localhost:3000/courses/' + section)
       .then((response) => response.json())
       .then((response) => setData(response));
-  }, []);
+  }, [section]);
 
   return (
-    <div style={{ maxWidth: '80%', margin: 'auto' }}>
-      <MaterialTable
-        columns={columns}
-        data={data}
-        title="EPFLCourses"
-        options={{
-          filtering: true,
-          draggable: false,
-          paging: false,
-          showEmptyDataSourceMessage: false,
-          headerStyle: {
-            position: 'sticky',
-            top: 0,
-            whiteSpace: 'nowrap',
-            padding: '10px',
-            fontWeight: 'bold',
-          },
-          maxBodyHeight: height - 81,
+    <div>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
         }}
-        components={{
-          GroupRow: (props) => <CustomGroupRow {...props} />,
-        }}
-        icons={{
-          IconButton: () => <IconButton style={{ color: 'blue' }} />,
-        }}
-      />
+        anchor="left"
+      >
+        <List>
+          {Object.keys(sections).map((text) => (
+            <ListItem
+              button
+              onClick={() => {
+                setSection(sections[text]);
+              }}
+              disableRipple
+              selected={section === sections[text]}
+              key={text}
+            >
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <div style={{ maxWidth: '80%', float: 'right' }}>
+        <MaterialTable
+          columns={columns}
+          data={data}
+          title="EPFLCourses"
+          options={{
+            filtering: true,
+            draggable: false,
+            paging: false,
+            showEmptyDataSourceMessage: false,
+            headerStyle: {
+              position: 'sticky',
+              top: 0,
+              whiteSpace: 'nowrap',
+              padding: '10px',
+              fontWeight: 'bold',
+            },
+            maxBodyHeight: height - 81,
+          }}
+          components={{
+            GroupRow: (props) => <CustomGroupRow {...props} />,
+          }}
+          icons={{
+            IconButton: () => <IconButton style={{ color: 'blue' }} />,
+          }}
+        />
+      </div>
     </div>
   );
 }
