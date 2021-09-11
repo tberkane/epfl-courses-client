@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+/* Hook used to keep the table's size the same as the window's size */
 export function useWindowResize() {
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);

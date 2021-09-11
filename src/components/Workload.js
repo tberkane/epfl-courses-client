@@ -1,6 +1,7 @@
 import React from 'react';
 import WorkloadSquare from './WorkloadSquare';
 
+/* Represents a course's workload as little colored squares */
 export default class Workload extends React.Component {
   render() {
     return (

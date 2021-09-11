@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 /* eslint-enable no-unused-vars */
 
+/* Custom group row to remove 'Group:' prefix and make text bold */
 export default class CustomGroupRow extends React.Component {
   rotateIconStyle = (isOpen) => ({
     transform: !isOpen ? 'rotate(90deg)' : 'none',
@@ -124,8 +125,6 @@ export default class CustomGroupRow extends React.Component {
     } else if (typeof title !== 'string') {
       title = React.cloneElement(title);
     }
-
-    let separator = this.props.options.groupRowSeparator || ': ';
 
     return (
       <>

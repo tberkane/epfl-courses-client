@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/style.css';
 
+/* A little colored square representing an hour of workload */
 export default class WorkloadSquare extends React.Component {
   render() {
     if (this.props.type === 'lecture') {

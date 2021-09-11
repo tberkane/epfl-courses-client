@@ -11,10 +11,9 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import WorkloadSquare from './components/WorkloadSquare';
 import Workload from './components/Workload';
 
-const drawerWidth = 300;
+const drawerWidth = '20%';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
