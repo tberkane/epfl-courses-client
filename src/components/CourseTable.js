@@ -2,23 +2,55 @@ import React, { useState, useEffect } from 'react';
 import { useWindowResize } from '../hooks/useWindowResize';
 import MaterialTable from '@material-table/core';
 import CustomGroupRow from './CustomGroupRow';
-import { IconButton, Toolbar } from '@material-ui/core';
+import { IconButton, MenuItem } from '@material-ui/core';
 import NameCell from './NameCell';
 import WorkloadCell from './WorkloadCell';
 import TeachersCell from './TeachersCell';
 import SpecializationsCell from './SpecializationsCell';
 import SemesterCell from './SemesterCell';
+import FilterForm from './FilterForm';
 
 /* Table which contains all the course data */
 export default function CourseTable(props) {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState(data);
   const { height } = useWindowResize();
+  const [semester, setSemester] = useState('');
+  const [specialization, setSpecialization] = useState('');
+  const [specializations, setSpecializations] = useState([]);
+
+  function handleSemesterChange(newSemester) {
+    setSemester(newSemester);
+  }
+
+  function handleSpecializationChange(newSpecialization) {
+    setSpecialization(newSpecialization);
+  }
 
   useEffect(() => {
+    setSpecialization('');
     fetch('http://localhost:3000/courses/' + props.section)
       .then((response) => response.json())
       .then((response) => setData(response));
   }, [props.section]);
+
+  useEffect(() => {
+    const semesterFilteredData =
+      semester === '' ? data : data.filter((d) => d.semester === semester);
+    setFilteredData(
+      specialization === ''
+        ? semesterFilteredData
+        : semesterFilteredData.filter((d) =>
+            d.specializations.includes(specialization)
+          )
+    );
+  }, [semester, specialization, data]);
+
+  useEffect(() => {
+    setSpecializations(
+      [...new Set(data.flatMap((d) => d.specializations))].sort()
+    );
+  }, [data]);
 
   const columns = [
     {
@@ -27,7 +59,7 @@ export default function CourseTable(props) {
       defaultGroupOrder: 0,
     },
     {
-      title: 'Name',
+      title: 'Course',
       field: 'name',
       cellStyle: {
         padding: '10px',
@@ -91,7 +123,7 @@ export default function CourseTable(props) {
       ),
     },
     {
-      title: 'Semester',
+      title: 'Exam',
       field: 'semester',
       cellStyle: {
         whiteSpace: 'nowrap',
@@ -116,32 +148,43 @@ export default function CourseTable(props) {
   ];
 
   return (
-    <div>
-      <Toolbar />
-      <MaterialTable
-        columns={columns}
-        data={data}
-        options={{
-          draggable: false,
-          paging: false,
-          showEmptyDataSourceMessage: false,
-          headerStyle: {
-            position: 'sticky',
-            top: 0,
-            whiteSpace: 'nowrap',
-            padding: '10px',
-            fontWeight: 'bold',
-          },
-          maxBodyHeight: height - 129,
-          showTitle: false,
-        }}
-        components={{
-          GroupRow: (props) => <CustomGroupRow {...props} />,
-        }}
-        icons={{
-          IconButton: () => <IconButton style={{ color: 'blue' }} />,
-        }}
-      />
-    </div>
+    <MaterialTable
+      columns={columns}
+      data={filteredData}
+      title={'EPFLCourses'}
+      options={{
+        draggable: false,
+        paging: false,
+        showEmptyDataSourceMessage: false,
+        headerStyle: {
+          position: 'sticky',
+          top: 0,
+          whiteSpace: 'nowrap',
+          padding: '10px',
+          fontWeight: 'bold',
+        },
+        maxBodyHeight: height - 76,
+      }}
+      actions={[
+        {
+          icon: () => (
+            <FilterForm
+              semester={semester}
+              specialization={specialization}
+              specializations={specializations}
+              onSemesterChange={handleSemesterChange}
+              onSpecializationChange={handleSpecializationChange}
+            ></FilterForm>
+          ),
+          isFreeAction: true,
+        },
+      ]}
+      components={{
+        GroupRow: (props) => <CustomGroupRow {...props} />,
+      }}
+      icons={{
+        IconButton: () => <IconButton style={{ color: 'blue' }} />,
+      }}
+    />
   );
 }

@@ -3,7 +3,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Toolbar,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -15,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-  },
-  drawerContainer: {
-    overflow: 'auto',
   },
 }));
 
@@ -73,24 +69,21 @@ export default function Sidebar(props) {
         paper: classes.drawerPaper,
       }}
     >
-      <Toolbar />
-      <div className={classes.drawerContainer}>
-        <List>
-          {Object.keys(sections).map((text) => (
-            <ListItem
-              button
-              onClick={() => {
-                props.onSectionChange(sections[text]);
-              }}
-              disableRipple
-              selected={props.section === sections[text]}
-              key={text}
-            >
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
+      <List>
+        {Object.keys(sections).map((text) => (
+          <ListItem
+            button
+            onClick={() => {
+              props.onSectionChange(sections[text]);
+            }}
+            disableRipple
+            selected={props.section === sections[text]}
+            key={text}
+          >
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
     </Drawer>
   );
 }
