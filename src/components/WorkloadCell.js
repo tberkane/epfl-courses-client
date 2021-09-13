@@ -5,19 +5,22 @@ import WorkloadSquare from './WorkloadSquare';
 export default class WorkloadCell extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         <div>
-          {[...Array(this.props.hours[0]).keys()].map((h) => (
+          {!!this.props.hours[0] && <h5 className="workload-header-l">L</h5>}
+          {[...Array(this.props.hours[0]).keys()].map(() => (
             <WorkloadSquare type="lecture"></WorkloadSquare>
           ))}
         </div>
         <div>
-          {[...Array(this.props.hours[1]).keys()].map((h) => (
+          {!!this.props.hours[1] && <h5 className="workload-header-e">E</h5>}
+          {[...Array(this.props.hours[1]).keys()].map(() => (
             <WorkloadSquare type="exercises"></WorkloadSquare>
           ))}
         </div>
         <div>
-          {[...Array(this.props.hours[2]).keys()].map((h) => (
+          {!!this.props.hours[2] && <h5 className="workload-header-p">P</h5>}
+          {[...Array(this.props.hours[2]).keys()].map(() => (
             <WorkloadSquare type="practice"></WorkloadSquare>
           ))}
         </div>

@@ -23,7 +23,7 @@ export default function FilterForm(props) {
           label="Semester"
         >
           <MenuItem value={''}>
-            <em>None</em>
+            <em>Any</em>
           </MenuItem>
           <MenuItem value={'Fall'}>Fall</MenuItem>
           <MenuItem value={'Spring'}>Spring</MenuItem>
@@ -40,7 +40,7 @@ export default function FilterForm(props) {
           label="Specialization"
         >
           <MenuItem value={''}>
-            <em>None</em>
+            <em>Any</em>
           </MenuItem>
           {specializationItems}
         </Select>

@@ -7,17 +7,31 @@ a,
 .workload-square-e,
 .workload-square-p {
   float: left;
-  height: 10px;
+  height: 15px;
   width: 10px;
-  margin-left: 1px;
-  margin-top: 1px;
+  margin: 1px;
 }
 .workload-square-l {
-  background-color: blue;
+  background-color: #147efb;
 }
 .workload-square-e {
-  background-color: green;
+  background-color: #53d769;
 }
 .workload-square-p {
-  background-color: red;
+  background-color: #fc3d39;
+}
+
+.workload-header-l,
+.workload-header-e,
+.workload-header-p {
+  margin: 0;
+}
+.workload-header-l {
+  color: #147efb;
+}
+.workload-header-e {
+  color: #53d769;
+}
+.workload-header-p {
+  color: #fc3d39;
 }

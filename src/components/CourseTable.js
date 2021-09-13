@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useWindowResize } from '../hooks/useWindowResize';
 import MaterialTable from '@material-table/core';
 import CustomGroupRow from './CustomGroupRow';
-import { IconButton, MenuItem } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import NameCell from './NameCell';
 import WorkloadCell from './WorkloadCell';
 import TeachersCell from './TeachersCell';
@@ -50,6 +50,7 @@ export default function CourseTable(props) {
     setSpecializations(
       [...new Set(data.flatMap((d) => d.specializations))].sort()
     );
+    window.scrollTo(0, 0);
   }, [data]);
 
   const columns = [
@@ -163,7 +164,7 @@ export default function CourseTable(props) {
           padding: '10px',
           fontWeight: 'bold',
         },
-        maxBodyHeight: height - 76,
+        maxBodyHeight: height - 77,
       }}
       actions={[
         {
