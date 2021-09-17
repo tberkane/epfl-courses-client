@@ -30,7 +30,7 @@ export default function CourseTable(props) {
 
   useEffect(() => {
     setSpecialization('');
-    fetch(process.env.API_URL + props.section)
+    fetch((process.env.API_URL || 'https://murmuring-reaches-23585.herokuapp.com/courses/') + props.section)
       .then((response) => response.json())
       .then((response) => setData(response));
   }, [props.section]);
