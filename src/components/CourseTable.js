@@ -9,6 +9,7 @@ import TeachersCell from './TeachersCell';
 import SpecializationsCell from './SpecializationsCell';
 import SemesterCell from './SemesterCell';
 import FilterForm from './FilterForm';
+require('dotenv').config();
 
 /* Table which contains all the course data */
 export default function CourseTable(props) {
@@ -29,7 +30,7 @@ export default function CourseTable(props) {
 
   useEffect(() => {
     setSpecialization('');
-    fetch('https://murmuring-reaches-23585.herokuapp.com/courses/' + props.section)
+    fetch(process.env.API_URL + props.section)
       .then((response) => response.json())
       .then((response) => setData(response));
   }, [props.section]);
